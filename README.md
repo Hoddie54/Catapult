@@ -77,7 +77,7 @@ The form will find and highlight errors by the user as well as give them a detai
 
 ### 2. Warnings to the user
 
-2. The user is presented warnings if their pricing is far off from the predicted price. For Spot prices, this is if their price is a certain percentage more than the actual price obtained from Binance. For options, this is if their premium is a certain percentage off from a predicted premium. Tolerances can be adjusted in `/src/utils/constants.ts`
+The user is presented warnings if their pricing is far off from the predicted price. For Spot prices, this is if their price is a certain percentage more than the actual price obtained from Binance. For options, this is if their premium is a certain percentage off from a predicted premium. Tolerances can be adjusted in `/src/utils/constants.ts`
 
 ## Limitations and improvements
 
