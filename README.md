@@ -7,7 +7,7 @@
 3. General thought process
 4. Missing information
 5. Error checks
-6. Limitations are improvements
+6. Limitations and improvements
 
 ## How to run
 
@@ -15,7 +15,7 @@ In the project directory, you can run:
 
 ### `npm run dev`
 
-Runs the app in the development mode.\
+Runs the app in the development mode.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
@@ -32,7 +32,7 @@ Your app is ready to be deployed!
 
 My initial steps are:
 
-1. Research competitors / look and feel of inputs
+1. Research competitors / look and feel
 2. Research UI/UX best practise
 3. Research Black-Scholes / Options / Option pricing
 4. Select design toolkit for UI/UX
@@ -40,6 +40,8 @@ My initial steps are:
 6. Connect API to binance for price information and validation
 7. Inferring missing token information
 8. Black-Scholes checks
+
+In this case for 4) I went with Shadcn for a clean and professional look.
 
 ## General scope
 
@@ -79,19 +81,21 @@ The form will find and highlight errors by the user as well as give them a detai
 
 The user is presented warnings if their pricing is far off from the predicted price. For Spot prices, this is if their price is a certain percentage more than the actual price obtained from Binance. For options, this is if their premium is a certain percentage off from a predicted premium. Tolerances can be adjusted in `/src/utils/constants.ts`
 
-## Limitations and improvements
+## Limitations and possible improvements
 
 Whilst these approachs are effective in simple cases, they have a number of limitations and improvements for the future.
 
-1. Estimating volatility is poor inaccurate at the moment. Currently, the `estimateDailyVolatility` function in `black-scholes.ts` is crudely estimated; it only has the data available from the past 24hrs from Binance, so cannot estimate very well. I would suggest
+1. Estimating volatility is inaccurate at the moment. Currently, the `estimateDailyVolatility` function in `black-scholes.ts` is crudely estimated; it only has the data available from the past 24hrs from Binance, so cannot estimate very well. I would suggest:
 
-- a) using implied volatilities from other exchanges. BTC volatility can even be used to estimate that of other coins as they are strongly linked)
+- a) using implied volatilities from other exchanges. BTC volatility could even be used to estimate that of other coins as they are strongly linked.
 - b) check option prices against those listed elsewhere (e.g., https://www.tradingview.com/symbols/CME-BTC1!/options/?contract=BTCK2024)
 - c) store coin data ourselves on our backend servers and accurately calculate volatility daily.
 
-2. Regularly refresh data. Currently data is only loaded at page load. Ideally this should refresh every X seconds to prevent slippage.
+2. Regularly refresh data. Currently data is only loaded at page load. Ideally this should refresh every X seconds to prevent slippage. It may also be useful to get data from a variety of end points (or pay for our own reliable data endpoint).
 
 3. Allow users to adjust tolerances for warnings.
+
+4. A more sophisticated algorithm could make predictions about a trade based on past user trade history (as well as general trends in the market).
 
 ### Specific questions
 
@@ -99,6 +103,6 @@ Question: A brief explanation of how you would scale your solution if instead we
 
 Answer: Currently, as trades all are being check on a front-end, each user does their own computation and this isn't an issue. However, It is likely (as suggested above) that we may need to do some server-side processing ourselves. If that is the case, several changes will need to occur to prevent issues:
 
-1. Storing last X days of data on our servers from Binance and other sources. If we keep calling Binance's (or anyone's) API for every trade, we will hit the limit very quickly. Instead, we should regularly call it every X minutes and update our information.
+1. Storing last X days of data on our servers from Binance and other sources. If we keep calling Binance's (or anyone's) API for every trade, we will hit the limit very quickly. Instead, we should regularly call it every X minutes and store the rest on our side.
 2. Process information in advance to avoid duplicate computation. We can calculate best Option prices at regular intervals (e.g., 10 increments of 1000 on BTC for both Calls and Puts) and store this as an estimate for user sense checks. We should also calculate volatilities of tokens using historical data to make our estimates more accurate.
 3. Indexing token data stored on our database. Currently, when we suggest a token, we sort a list of tokens by certain values. Creating an index on these values will rapidly speed up these searches.
