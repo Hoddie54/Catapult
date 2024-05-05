@@ -115,7 +115,7 @@ export default function MainForm() {
         }}
       >
         <fieldset className="grid gap-6 rounded-lg border p-4">
-          <legend className="-ml-1 px-1 text-sm font-medium">Settings</legend>
+          <legend className="-ml-1 px-1 text-sm font-medium">Trade</legend>
           <div className="grid gap-3">
             <Label htmlFor="wallet">Wallet</Label>
             <Select defaultValue="coinbase">
